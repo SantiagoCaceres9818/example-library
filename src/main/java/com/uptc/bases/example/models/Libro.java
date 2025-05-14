@@ -1,5 +1,8 @@
 package com.uptc.bases.example.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -8,9 +11,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="LIBRO")
+@Table(name = "LIBRO")
 public class Libro {
-    
+
     @Id
     @Column(name = "ID_LIBRO")
     private Long id;
@@ -21,14 +24,16 @@ public class Libro {
 
     @ManyToOne
     @JoinColumn(name = "ID_AUTOR")
+    @JsonIgnoreProperties("libro")
     private Autor autor;
 
     @ManyToOne
     @JoinColumn(name = "ID_EDITORIAL")
+    @JsonIgnoreProperties("libro")
     private Editorial editorial;
 
-
-    public Libro () { }
+    public Libro() {
+    }
 
     public Libro(Long id, String ibsn) {
         this.id = id;
@@ -38,12 +43,15 @@ public class Libro {
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
+
     public String getIbsn() {
         return ibsn;
     }
+
     public void setIbsn(String ibsn) {
         this.ibsn = ibsn;
     }
@@ -71,6 +79,20 @@ public class Libro {
     public void setEditorial(Editorial editorial) {
         this.editorial = editorial;
     }
-    
-    
+
+  @JsonProperty("autor")
+    public void setAutorId(Long autorId) {
+        if (autorId != null) {
+            this.autor = new Autor();
+            this.autor.setId(autorId);
+        }
+    }
+
+    @JsonProperty("editorial")
+    public void setEditorialId(Long editorialId) {
+        if (editorialId != null) {
+            this.editorial = new Editorial();
+            this.editorial.setId(editorialId);
+        }
+    }
 }

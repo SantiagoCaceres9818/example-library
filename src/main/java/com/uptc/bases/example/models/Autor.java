@@ -3,6 +3,8 @@ package com.uptc.bases.example.models;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -22,7 +24,8 @@ public class Autor {
     private String nacionalidad;
 
     @OneToMany(mappedBy = "autor")
-    private List<Libro> libros;
+    @JsonIgnoreProperties({"autor", "editorial"})
+    private List<Libro> libros = new ArrayList<>();
 
     public Autor () {}
 
