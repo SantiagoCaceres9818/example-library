@@ -5,9 +5,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
 @Entity
@@ -16,6 +19,8 @@ public class Libro {
 
     @Id
     @Column(name = "ID_LIBRO")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "LIBRO_SEQ" )
+    @SequenceGenerator(name = "LIBRO_SEQ", sequenceName = "LIBRO_SEQ",  allocationSize = 1)
     private Long id;
     @Column(name = "TITULO")
     private String nombre;
@@ -80,19 +85,5 @@ public class Libro {
         this.editorial = editorial;
     }
 
-  @JsonProperty("autor")
-    public void setAutorId(Long autorId) {
-        if (autorId != null) {
-            this.autor = new Autor();
-            this.autor.setId(autorId);
-        }
-    }
 
-    @JsonProperty("editorial")
-    public void setEditorialId(Long editorialId) {
-        if (editorialId != null) {
-            this.editorial = new Editorial();
-            this.editorial.setId(editorialId);
-        }
-    }
 }

@@ -3,12 +3,15 @@ package com.uptc.bases.example.models;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
 @Entity
@@ -16,6 +19,8 @@ import jakarta.persistence.Table;
 public class Editorial {
     
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "EDITORIAL_SEQ" )
+    @SequenceGenerator(name = "EDITORIAL_SEQ", sequenceName = "EDITORIAL_SEQ", allocationSize = 1)
     @Column(name = "ID_EDITORIAL")
     private Long id;
     @Column(name = "NOMBRE")
@@ -24,7 +29,7 @@ public class Editorial {
     private String pais;
     
     @OneToMany(mappedBy = "editorial")
-    @JsonIgnoreProperties({"autor", "editorial"})
+    @JsonIgnore
     private List<Libro> libros = new ArrayList<>();
 
     public Editorial () { }
